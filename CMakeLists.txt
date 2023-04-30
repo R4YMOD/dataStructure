@@ -3,4 +3,4 @@ project(dataStruct)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(dataStruct  LinearList/main.cpp)
+add_executable(dataStruct singleLinkList/main.cpp)
