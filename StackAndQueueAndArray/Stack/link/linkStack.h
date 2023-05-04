@@ -18,10 +18,7 @@ typedef struct LinkNode{
  * */
 
 //初始化
-void InitStack(LiStack& Ls){
-    Ls->next = nullptr;
-}
-
+void InitStack(LiStack& Ls);
 //判断栈空
 bool StackEmpty(LiStack &LS);
 

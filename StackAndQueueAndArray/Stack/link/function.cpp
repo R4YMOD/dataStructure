@@ -2,6 +2,10 @@
 // Created by cheng on 2023/5/1.
 //
 #include "linkStack.h"
+//初始化
+void InitStack(LiStack& Ls){
+    Ls->next = nullptr;
+};
 
 //判断栈空
 bool StackEmpty(LiStack &LS){

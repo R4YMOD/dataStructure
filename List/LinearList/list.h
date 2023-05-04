@@ -7,7 +7,7 @@
 #define ElemType int
 
 /*
- * TODO: 线性表的动态分配顺序存储结构
+ *
  *
  * */
 
