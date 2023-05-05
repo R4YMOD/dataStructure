@@ -16,4 +16,6 @@ int main() {
     levelOrder(bt);
     printf("\n先序遍历\n");
     preOrder2(bt);
+    printf("\n后序非递归遍历\n");
+    postOrder2(bt);
 } 
