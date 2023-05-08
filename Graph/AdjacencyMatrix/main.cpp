@@ -21,7 +21,9 @@ int main() {
     createMGraph(mGraph);
     //返回第一个邻接
     VertexType x = 'a';
-    printf("\n%c的第一个邻接点的索引为%d\n",x, firstNeighbor(mGraph,x));
-    printf("\n%c的下一个邻接点的索引为%d\n",x, nextNeighbor(mGraph,x, 'b'));
-    printf("hello");
+    printf("hello\n");
+    printf("广度遍历\n");
+    BFSTraverse(mGraph);
+    printf("深度遍历\n");
+    DFSTraverse(mGraph);
 }

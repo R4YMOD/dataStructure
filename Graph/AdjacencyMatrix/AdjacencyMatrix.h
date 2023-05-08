@@ -35,13 +35,13 @@ void createMGraph(MGraph &graph);
 bool Adjacent(MGraph graph,VertexType x,VertexType y);
 
 //返回第一个邻接点的顶点号
-int firstNeighbor(MGraph graph,VertexType x);
+int firstNeighbor(MGraph graph,int x);
 
 //返回下一个邻接的顶点号
-int nextNeighbor(MGraph graph,VertexType x,VertexType y);
+int nextNeighbor(MGraph graph,int x,int y);
 
 /**
- * 访问数组
+ * 标记数组数组
  * */
 bool visited[MaxVertexNum];
 //广度优先搜索

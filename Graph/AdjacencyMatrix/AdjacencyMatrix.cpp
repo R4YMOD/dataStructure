@@ -73,8 +73,8 @@ bool Adjacent(MGraph graph,VertexType x,VertexType y){
 }
 
 //返回第一个邻接点的顶点号
-int firstNeighbor(MGraph graph,VertexType x){
-    int xIndex = locateVertexVar(graph,x);
+int firstNeighbor(MGraph graph,int x){
+    int xIndex = locateVertexVar(graph,graph.Vex[x]);
     for (int i = 0; i < graph.VertexNum; ++i) {
         if(graph.Edge[xIndex][i] != 0){
             return i;
@@ -86,9 +86,9 @@ int firstNeighbor(MGraph graph,VertexType x){
 }
 
 //返回下一个邻接的顶点号
-int nextNeighbor(MGraph graph,VertexType x,VertexType y){
-    int xIndex = locateVertexVar(graph,x);
-    int yIndex = locateVertexVar(graph,y);
+int nextNeighbor(MGraph graph,int x,int y){
+    int xIndex = locateVertexVar(graph,graph.Vex[x]);
+    int yIndex = locateVertexVar(graph,graph.Vex[y]);
     for (int i = yIndex + 1; i < graph.VertexNum ; ++i) {
         if(graph.Edge[xIndex][i]){
             return i;
@@ -96,4 +96,64 @@ int nextNeighbor(MGraph graph,VertexType x,VertexType y){
     }
     //未找到
     return -1;
+}
+
+//广度优先搜索
+void BFSTraverse(MGraph graph){
+    //初始化标记数组
+    for (int i = 0; i < graph.VertexNum; ++i) {
+        visited[i] = false;
+    }
+    //循环遍历
+    for (int i = 0; i < graph.VertexNum; ++i) {
+        if(!visited[i]){
+            BFS(graph,i);
+        }
+    }
+}
+void BFS(MGraph graph,int v){
+    /**
+     * 使用一维数组模拟队列
+     * */
+    int queue[MaxVertexNum];
+    int front = 0;
+    int rear = 0;
+    printf(" %c",graph.Vex[v]);
+    visited[v]= true;
+    queue[rear] = v;
+    rear++;
+    while (rear != front){
+        v = queue[front];
+        front++;
+        for (int w = firstNeighbor(graph,v);w != -1;w = nextNeighbor(graph,v,w)){
+            if(!visited[w]){
+                visited[w] = true;
+                printf(" %c",graph.Vex[w]);
+                queue[rear++] = w;
+            }
+        }
+    }
+}
+
+//深度优先搜素
+void DFSTraverse(MGraph graph){
+    //初始化标记数组
+    for (int i = 0; i < graph.VertexNum; ++i) {
+        visited[i] = false;
+    }
+    //循环遍历
+    for (int i = 0; i < graph.VertexNum; ++i) {
+        if(!visited[i]){
+            DFS(graph,i);
+        }
+    }
+}
+void DFS(MGraph graph,int v){
+    printf(" %c",graph.Vex[v]);
+    visited[v]= true;
+    for (int w = firstNeighbor(graph,v);w != -1;w = nextNeighbor(graph,v,w)){
+        if(!visited[w]){
+            DFS(graph,w);
+        }
+    }
 }
