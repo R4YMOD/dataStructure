@@ -50,3 +50,7 @@ void BFS(MGraph graph,int v);
 //深度优先搜素
 void DFSTraverse(MGraph graph);
 void DFS(MGraph graph,int v);
+
+
+//拓扑排序
+bool TopologicalSort(MGraph mGraph);

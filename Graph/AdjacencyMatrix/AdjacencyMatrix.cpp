@@ -63,20 +63,20 @@ void createMGraph(MGraph &graph) {
 }
 
 //判断是否存在边
-bool Adjacent(MGraph graph,VertexType x,VertexType y){
-    int xIndex = locateVertexVar(graph,x);
-    int yIndex = locateVertexVar(graph,y);
-    if(graph.Edge[xIndex][yIndex] != 0 || graph.Edge[yIndex][xIndex] != 0){
+bool Adjacent(MGraph graph, VertexType x, VertexType y) {
+    int xIndex = locateVertexVar(graph, x);
+    int yIndex = locateVertexVar(graph, y);
+    if (graph.Edge[xIndex][yIndex] != 0 || graph.Edge[yIndex][xIndex] != 0) {
         return true;
     }
     return false;
 }
 
 //返回第一个邻接点的顶点号
-int firstNeighbor(MGraph graph,int x){
-    int xIndex = locateVertexVar(graph,graph.Vex[x]);
+int firstNeighbor(MGraph graph, int x) {
+    int xIndex = locateVertexVar(graph, graph.Vex[x]);
     for (int i = 0; i < graph.VertexNum; ++i) {
-        if(graph.Edge[xIndex][i] != 0){
+        if (graph.Edge[xIndex][i] != 0) {
             return i;
         }
     }
@@ -86,11 +86,11 @@ int firstNeighbor(MGraph graph,int x){
 }
 
 //返回下一个邻接的顶点号
-int nextNeighbor(MGraph graph,int x,int y){
-    int xIndex = locateVertexVar(graph,graph.Vex[x]);
-    int yIndex = locateVertexVar(graph,graph.Vex[y]);
-    for (int i = yIndex + 1; i < graph.VertexNum ; ++i) {
-        if(graph.Edge[xIndex][i]){
+int nextNeighbor(MGraph graph, int x, int y) {
+    int xIndex = locateVertexVar(graph, graph.Vex[x]);
+    int yIndex = locateVertexVar(graph, graph.Vex[y]);
+    for (int i = yIndex + 1; i < graph.VertexNum; ++i) {
+        if (graph.Edge[xIndex][i]) {
             return i;
         }
     }
@@ -99,36 +99,37 @@ int nextNeighbor(MGraph graph,int x,int y){
 }
 
 //广度优先搜索
-void BFSTraverse(MGraph graph){
+void BFSTraverse(MGraph graph) {
     //初始化标记数组
     for (int i = 0; i < graph.VertexNum; ++i) {
         visited[i] = false;
     }
     //循环遍历
     for (int i = 0; i < graph.VertexNum; ++i) {
-        if(!visited[i]){
-            BFS(graph,i);
+        if (!visited[i]) {
+            BFS(graph, i);
         }
     }
 }
-void BFS(MGraph graph,int v){
+
+void BFS(MGraph graph, int v) {
     /**
      * 使用一维数组模拟队列
      * */
     int queue[MaxVertexNum];
     int front = 0;
     int rear = 0;
-    printf(" %c",graph.Vex[v]);
-    visited[v]= true;
+    printf(" %c", graph.Vex[v]);
+    visited[v] = true;
     queue[rear] = v;
     rear++;
-    while (rear != front){
+    while (rear != front) {
         v = queue[front];
         front++;
-        for (int w = firstNeighbor(graph,v);w != -1;w = nextNeighbor(graph,v,w)){
-            if(!visited[w]){
+        for (int w = firstNeighbor(graph, v); w != -1; w = nextNeighbor(graph, v, w)) {
+            if (!visited[w]) {
                 visited[w] = true;
-                printf(" %c",graph.Vex[w]);
+                printf(" %c", graph.Vex[w]);
                 queue[rear++] = w;
             }
         }
@@ -136,24 +137,79 @@ void BFS(MGraph graph,int v){
 }
 
 //深度优先搜素
-void DFSTraverse(MGraph graph){
+void DFSTraverse(MGraph graph) {
     //初始化标记数组
     for (int i = 0; i < graph.VertexNum; ++i) {
         visited[i] = false;
     }
     //循环遍历
     for (int i = 0; i < graph.VertexNum; ++i) {
-        if(!visited[i]){
-            DFS(graph,i);
+        if (!visited[i]) {
+            DFS(graph, i);
         }
     }
 }
-void DFS(MGraph graph,int v){
-    printf(" %c",graph.Vex[v]);
-    visited[v]= true;
-    for (int w = firstNeighbor(graph,v);w != -1;w = nextNeighbor(graph,v,w)){
-        if(!visited[w]){
-            DFS(graph,w);
+
+void DFS(MGraph graph, int v) {
+    printf(" %c", graph.Vex[v]);
+    visited[v] = true;
+    for (int w = firstNeighbor(graph, v); w != -1; w = nextNeighbor(graph, v, w)) {
+        if (!visited[w]) {
+            DFS(graph, w);
         }
     }
+}
+
+//拓扑排序
+bool TopologicalSort(MGraph mGraph) {
+    //求所有结点的度
+    int inDegree[MaxVertexNum] = {0};
+    for (int i = 0; i < mGraph.VertexNum; ++i) {
+        for (int j = 0; j < mGraph.VertexNum; ++j) {
+            if (mGraph.Edge[i][j] != 0) {
+                inDegree[i] += 1;
+            }
+        }
+    }
+
+    /**
+     * 一维数组模拟栈
+     * */
+    int stack[MaxVertexNum];
+    int top = -1;
+    int get = 0;
+    int count = 0;//计数
+
+    for (int i = 0; i < mGraph.VertexNum; ++i) {
+        if (inDegree[i] == 0) {
+            top++;
+            stack[top] = i;
+        }
+    }
+
+    while (top != -1) {
+        get = stack[top];
+        top--;
+        printf(" %c", mGraph.Vex[get]);
+        count++;
+        //所有mGraph.Vex[get]的节点入度减一
+//        for (int i = 0; i < mGraph.VertexNum; ++i) {
+//            if(mGraph.Edge[get][i] != 0){
+//                inDegree[i]--;
+//            }
+//            if(inDegree[i] == 0){
+//                stack[++top] = i;
+//            }
+//        }
+        for (int i = firstNeighbor(mGraph, get); i != -1; i = nextNeighbor(mGraph, get, i)) {
+            inDegree[i]--;
+            if (inDegree[i] == 0) {
+                stack[++top] = i;
+            }
+        }
+    }
+    if (count < mGraph.VertexNum) {
+        return false;
+    }
+    return true;
 }
